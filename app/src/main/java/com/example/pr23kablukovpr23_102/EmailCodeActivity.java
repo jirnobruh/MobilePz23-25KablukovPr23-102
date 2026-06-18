@@ -63,14 +63,16 @@ public class EmailCodeActivity extends AppCompatActivity {
         });
 
         startTimer();
-        focusEmailCode();
+        
+        // Задержка позволяет UI полностью отрисоваться перед вызовом клавиатуры
+        etHiddenCode.postDelayed(this::focusEmailCode, 200);
     }
 
     private void focusEmailCode() {
         etHiddenCode.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
-            imm.showSoftInput(etHiddenCode, InputMethodManager.SHOW_IMPLICIT);
+            imm.showSoftInput(etHiddenCode, InputMethodManager.SHOW_FORCED);
         }
     }
 

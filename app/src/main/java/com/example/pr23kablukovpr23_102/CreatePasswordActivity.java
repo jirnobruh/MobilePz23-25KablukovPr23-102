@@ -35,6 +35,13 @@ public class CreatePasswordActivity extends AppCompatActivity {
         findViewById(R.id.tvSkip).setOnClickListener(v -> goToNext());
         findViewById(R.id.llDots).setOnClickListener(v -> focusPassword());
 
+        etHiddenCodeWatcher();
+
+        // Задержка позволяет UI полностью отрисоваться перед вызовом клавиатуры
+        etHiddenPassword.postDelayed(this::focusPassword, 200);
+    }
+
+    private void etHiddenCodeWatcher() {
         etHiddenPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -48,15 +55,13 @@ public class CreatePasswordActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
-
-        focusPassword();
     }
 
     private void focusPassword() {
         etHiddenPassword.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
-            imm.showSoftInput(etHiddenPassword, InputMethodManager.SHOW_IMPLICIT);
+            imm.showSoftInput(etHiddenPassword, InputMethodManager.SHOW_FORCED);
         }
     }
 
