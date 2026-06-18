@@ -3,16 +3,104 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/white">
 
     <TextView
+        android:id="@+id/tvEmoji"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вход и регистрация"
+        android:layout_marginTop="60dp"
+        android:text="👋"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Добро пожаловать!"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tvEmoji"
+        app:layout_constraintStart_toEndOf="@id/tvEmoji"
+        app:layout_constraintTop_toTopOf="@id/tvEmoji" />
+
+    <TextView
+        android:id="@+id/tvSubWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Войдите, чтобы пользоваться функциями\nприложения"
+        android:textColor="#7E7E7E"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEmoji" />
+
+    <TextView
+        android:id="@+id/tvEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Вход по E-mail"
+        android:textColor="#7E7E7E"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubWelcome" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_edittext"
+        android:hint="example@mail.ru"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#BDBDBD"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        android:enabled="false"
+        android:text="Далее"
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/primary_blue"
+        app:layout_constraintTop_toBottomOf="@id/etEmail" />
+
+    <TextView
+        android:id="@+id/tvOr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Или войдите с помощью"
+        android:textColor="#7E7E7E"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@id/btnYandex"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnYandex"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_button_outline"
+        android:text="Войти с Яндекс"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

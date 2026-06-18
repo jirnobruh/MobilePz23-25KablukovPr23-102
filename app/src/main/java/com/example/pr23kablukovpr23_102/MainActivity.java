@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         tvSkip = findViewById(R.id.tvSkip);
 
-        // Применяем отступы только к тексту Пропустить, чтобы он не залезал под панель
         ViewCompat.setOnApplyWindowInsetsListener(tvSkip, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvSkip.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
+            // finish() убран, чтобы можно было вернуться назад
         });
     }
 }
