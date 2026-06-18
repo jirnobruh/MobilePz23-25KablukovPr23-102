@@ -1,10 +1,13 @@
 package com.example.pr23kablukovpr23_102;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +18,7 @@ import java.util.List;
 public class CreatePasswordActivity extends AppCompatActivity {
 
     private List<ImageView> dots = new ArrayList<>();
-    private StringBuilder password = new StringBuilder();
+    private EditText etHiddenPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,38 +26,41 @@ public class CreatePasswordActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_password);
 
+        etHiddenPassword = findViewById(R.id.etHiddenPassword);
         dots.add(findViewById(R.id.ivDot1));
         dots.add(findViewById(R.id.ivDot2));
         dots.add(findViewById(R.id.ivDot3));
         dots.add(findViewById(R.id.ivDot4));
 
         findViewById(R.id.tvSkip).setOnClickListener(v -> goToNext());
+        findViewById(R.id.llDots).setOnClickListener(v -> focusPassword());
 
-        setupNumPad();
-    }
-
-    private void setupNumPad() {
-        int[] ids = {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9};
-        for (int id : ids) {
-            findViewById(id).setOnClickListener(v -> {
-                if (password.length() < 4) {
-                    password.append(((TextView) v).getText().toString());
-                    updateDots();
-                    if (password.length() == 4) {
-                        goToNext();
-                    }
+        etHiddenPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateDots(s.toString());
+                if (s.length() == 4) {
+                    goToNext();
                 }
-            });
-        }
-        findViewById(R.id.btnDel).setOnClickListener(v -> {
-            if (password.length() > 0) {
-                password.deleteCharAt(password.length() - 1);
-                updateDots();
             }
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
+
+        focusPassword();
     }
 
-    private void updateDots() {
+    private void focusPassword() {
+        etHiddenPassword.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(etHiddenPassword, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    private void updateDots(String password) {
         for (int i = 0; i < 4; i++) {
             if (i < password.length()) {
                 dots.get(i).setImageResource(R.drawable.dot_active);

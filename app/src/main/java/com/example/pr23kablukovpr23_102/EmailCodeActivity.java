@@ -1,8 +1,13 @@
 package com.example.pr23kablukovpr23_102;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,7 +23,7 @@ public class EmailCodeActivity extends AppCompatActivity {
 
     private TextView tvTimer;
     private List<TextView> codeBoxes = new ArrayList<>();
-    private StringBuilder currentCode = new StringBuilder();
+    private EditText etHiddenCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +38,40 @@ public class EmailCodeActivity extends AppCompatActivity {
         });
 
         tvTimer = findViewById(R.id.tvTimer);
+        etHiddenCode = findViewById(R.id.etHiddenCode);
+        
         codeBoxes.add(findViewById(R.id.tvCode1));
         codeBoxes.add(findViewById(R.id.tvCode2));
         codeBoxes.add(findViewById(R.id.tvCode3));
         codeBoxes.add(findViewById(R.id.tvCode4));
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        findViewById(R.id.llCode).setOnClickListener(v -> focusEmailCode());
+
+        etHiddenCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateCodeUI(s.toString());
+                if (s.length() == 4) {
+                    startActivity(new Intent(EmailCodeActivity.this, CreatePasswordActivity.class));
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         startTimer();
-        setupNumPad();
+        focusEmailCode();
+    }
+
+    private void focusEmailCode() {
+        etHiddenCode.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(etHiddenCode, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     private void startTimer() {
@@ -51,37 +81,14 @@ public class EmailCodeActivity extends AppCompatActivity {
             }
             public void onFinish() {
                 tvTimer.setText("Отправить код повторно");
-                tvTimer.setClickable(true);
             }
         }.start();
     }
 
-    private void setupNumPad() {
-        int[] ids = {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9};
-        for (int id : ids) {
-            findViewById(id).setOnClickListener(v -> {
-                if (currentCode.length() < 4) {
-                    String num = ((TextView) v).getText().toString();
-                    currentCode.append(num);
-                    updateCodeUI();
-                    if (currentCode.length() == 4) {
-                        startActivity(new Intent(EmailCodeActivity.this, CreatePasswordActivity.class));
-                    }
-                }
-            });
-        }
-        findViewById(R.id.btnDel).setOnClickListener(v -> {
-            if (currentCode.length() > 0) {
-                currentCode.deleteCharAt(currentCode.length() - 1);
-                updateCodeUI();
-            }
-        });
-    }
-
-    private void updateCodeUI() {
+    private void updateCodeUI(String code) {
         for (int i = 0; i < 4; i++) {
-            if (i < currentCode.length()) {
-                codeBoxes.get(i).setText(String.valueOf(currentCode.charAt(i)));
+            if (i < code.length()) {
+                codeBoxes.get(i).setText(String.valueOf(code.charAt(i)));
             } else {
                 codeBoxes.get(i).setText("");
             }
