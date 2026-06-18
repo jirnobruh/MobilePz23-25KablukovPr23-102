@@ -1,6 +1,7 @@
 package com.example.pr23kablukovpr23_102;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -53,8 +54,15 @@ public class PatientCardActivity extends AppCompatActivity {
         etBirth.setOnClickListener(v -> showDatePicker());
         etGender.setOnClickListener(v -> showGenderPicker());
 
-        findViewById(R.id.tvSkip).setOnClickListener(v -> finish());
-        btnCreate.setOnClickListener(v -> finish());
+        findViewById(R.id.tvSkip).setOnClickListener(v -> startAnalyses());
+        btnCreate.setOnClickListener(v -> startAnalyses());
+    }
+
+    private void startAnalyses() {
+        Intent intent = new Intent(PatientCardActivity.this, AnalysesActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void showDatePicker() {
@@ -66,11 +74,8 @@ public class PatientCardActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, month1, dayOfMonth) -> {
             Calendar selectedDate = Calendar.getInstance();
             selectedDate.set(year1, month1, dayOfMonth);
-            
-            // Формат даты "28 февраля 1991"
             SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy", new Locale("ru"));
             String dateString = sdf.format(selectedDate.getTime());
-            
             etBirth.setText(dateString);
         }, year, month, day);
         datePickerDialog.show();

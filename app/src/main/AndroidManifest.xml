@@ -32,6 +32,13 @@
         <activity
             android:name=".PatientCardActivity"
             android:exported="false" />
+        <activity
+            android:name=".AnalysesActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EmptyActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
