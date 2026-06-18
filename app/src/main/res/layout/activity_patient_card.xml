@@ -53,11 +53,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText android:id="@+id/etFirstName" style="@style/CardInput" android:hint="Имя" />
-            <EditText android:id="@+id/etMiddleName" style="@style/CardInput" android:hint="Отчество" />
-            <EditText android:id="@+id/etLastName" style="@style/CardInput" android:hint="Фамилия" />
-            <EditText android:id="@+id/etBirthDate" style="@style/CardInput" android:hint="Дата рождения" />
-            <EditText android:id="@+id/etGender" style="@style/CardInput" android:hint="Пол" />
+            <EditText android:id="@+id/etFirstName" style="@style/CardInput" android:hint="Имя" android:inputType="textPersonName" />
+            <EditText android:id="@+id/etMiddleName" style="@style/CardInput" android:hint="Отчество" android:inputType="textPersonName" />
+            <EditText android:id="@+id/etLastName" style="@style/CardInput" android:hint="Фамилия" android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/etBirthDate"
+                style="@style/CardInput"
+                android:hint="Дата рождения"
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false" />
+            <EditText
+                android:id="@+id/etGender"
+                style="@style/CardInput"
+                android:hint="Пол"
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:drawableEnd="@drawable/ic_arrow_down" />
 
         </LinearLayout>
     </ScrollView>
